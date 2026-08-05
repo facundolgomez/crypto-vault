@@ -2,9 +2,44 @@ import "./Dashboard.css";
 import CryptoItem from "../components/CryptoItem";
 
 export default function Dashboard() {
+  const cryptos = [
+    {
+      id: 1,
+      name: "Bitcoin",
+      symbol: "BTC",
+      amount: 0.15,
+      value: 9750,
+      change: 2.4,
+    },
+    {
+      id: 2,
+      name: "Ethereum",
+      symbol: "ETH",
+      amount: 1.8,
+      value: 4500,
+      change: -1.1,
+    },
+    {
+      id: 3,
+      name: "Solana",
+      symbol: "SOL",
+      amount: 20,
+      value: 1600,
+      change: 5.7,
+    },
+    {
+      id: 4,
+      name: "Cardano",
+      symbol: "ADA",
+      amount: 1500,
+      value: 900,
+      change: 0.8,
+    },
+  ];
+
   return (
     <main className="dashboard">
-      {/* <header className="header">
+      <header className="header">
         <h1>CryptoVault</h1>
         <h2>Plataforma para gestionar criptos </h2>
 
@@ -76,10 +111,29 @@ export default function Dashboard() {
         <button>Comprar</button>
         <button>Vender</button>
         <button>Mercado</button>
-      </section> */}
-      <h2>Bienvenidos a CryptoItem</h2>
+      </section>
+      {/* <h2>Bienvenidos a CryptoItem</h2>
       <h3>Abajo de esta línea aparece el componente CryptoItem</h3>
-      <CryptoItem />
+      <CryptoItem
+        cryptoName={cryptos[0].name}
+        amount={cryptos[0].amount}
+        value={cryptos[0].value}
+      />
+      <CryptoItem
+        cryptoName={cryptos[1].name}
+        amount={cryptos[1].amount}
+        value={cryptos[1].value}
+      />
+      <CryptoItem
+        cryptoName={cryptos[2].name}
+        amount={cryptos[2].amount}
+        value={cryptos[2].value}
+      />
+      <CryptoItem
+        cryptoName={cryptos[3].name}
+        amount={cryptos[3].amount}
+        value={cryptos[3].value}
+      /> */}
     </main>
   );
 }
