@@ -3,7 +3,7 @@ import "./Dashboard.css";
 export default function Dashboard() {
   return (
     <main className="dashboard">
-      <header className="header">
+      {/* <header className="header">
         <h1>CryptoVault</h1>
         <h2>Plataforma para gestionar criptos </h2>
 
@@ -75,7 +75,7 @@ export default function Dashboard() {
         <button>Comprar</button>
         <button>Vender</button>
         <button>Mercado</button>
-      </section>
+      </section> */}
     </main>
   );
 }
