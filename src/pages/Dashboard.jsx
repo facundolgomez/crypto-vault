@@ -1,4 +1,5 @@
 import "./Dashboard.css";
+import CryptoItem from "../components/CryptoItem";
 
 export default function Dashboard() {
   return (
@@ -76,6 +77,9 @@ export default function Dashboard() {
         <button>Vender</button>
         <button>Mercado</button>
       </section> */}
+      <h2>Bienvenidos a CryptoItem</h2>
+      <h3>Abajo de esta línea aparece el componente CryptoItem</h3>
+      <CryptoItem />
     </main>
   );
 }
