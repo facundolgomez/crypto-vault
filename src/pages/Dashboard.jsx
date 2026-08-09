@@ -1,42 +1,8 @@
 import "./Dashboard.css";
 import CryptoItem from "../components/CryptoItem";
+import { cryptos } from "../data/cryptos";
 
 export default function Dashboard() {
-  const cryptos = [
-    {
-      id: 1,
-      name: "Bitcoin",
-      symbol: "BTC",
-      amount: 0.15,
-      value: 9750,
-      change: 2.4,
-    },
-    {
-      id: 2,
-      name: "Ethereum",
-      symbol: "ETH",
-      amount: 1.8,
-      value: 4500,
-      change: -1.1,
-    },
-    {
-      id: 3,
-      name: "Solana",
-      symbol: "SOL",
-      amount: 20,
-      value: 1600,
-      change: 5.7,
-    },
-    {
-      id: 4,
-      name: "Cardano",
-      symbol: "ADA",
-      amount: 1500,
-      value: 900,
-      change: 0.8,
-    },
-  ];
-
   return (
     <main className="dashboard">
       <header className="header">
@@ -86,23 +52,34 @@ export default function Dashboard() {
           </thead>
 
           <tbody>
-            <tr>
-              <td>Bitcoin</td>
-              <td>0.15 BTC</td>
-              <td>USD 9.750</td>
-            </tr>
-
-            <tr>
-              <td>Ethereum</td>
-              <td>1.8 ETH</td>
-              <td>USD 4.500</td>
-            </tr>
-
-            <tr>
-              <td>Solana</td>
-              <td>20 SOL</td>
-              <td>USD 1.600</td>
-            </tr>
+            <CryptoItem
+              cryptoName={cryptos[0].name}
+              symbol={cryptos[0].symbol}
+              amount={cryptos[0].amount}
+              value={cryptos[0].value}
+              image={cryptos[0].image}
+            />
+            <CryptoItem
+              cryptoName={cryptos[1].name}
+              symbol={cryptos[1].symbol}
+              amount={cryptos[1].amount}
+              value={cryptos[1].value}
+              image={cryptos[1].image}
+            />
+            <CryptoItem
+              cryptoName={cryptos[2].name}
+              symbol={cryptos[2].symbol}
+              amount={cryptos[2].amount}
+              value={cryptos[2].value}
+              image={cryptos[2].image}
+            />
+            <CryptoItem
+              cryptoName={cryptos[3].name}
+              symbol={cryptos[3].symbol}
+              amount={cryptos[3].amount}
+              value={cryptos[3].value}
+              image={cryptos[3].image}
+            />
           </tbody>
         </table>
       </section>
@@ -112,28 +89,6 @@ export default function Dashboard() {
         <button>Vender</button>
         <button>Mercado</button>
       </section>
-      {/* <h2>Bienvenidos a CryptoItem</h2>
-      <h3>Abajo de esta línea aparece el componente CryptoItem</h3>
-      <CryptoItem
-        cryptoName={cryptos[0].name}
-        amount={cryptos[0].amount}
-        value={cryptos[0].value}
-      />
-      <CryptoItem
-        cryptoName={cryptos[1].name}
-        amount={cryptos[1].amount}
-        value={cryptos[1].value}
-      />
-      <CryptoItem
-        cryptoName={cryptos[2].name}
-        amount={cryptos[2].amount}
-        value={cryptos[2].value}
-      />
-      <CryptoItem
-        cryptoName={cryptos[3].name}
-        amount={cryptos[3].amount}
-        value={cryptos[3].value}
-      /> */}
     </main>
   );
 }
