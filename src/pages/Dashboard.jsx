@@ -1,8 +1,16 @@
 import "./Dashboard.css";
 import CryptoItem from "../components/CryptoItem";
 import { cryptos } from "../data/cryptos";
+import { useState } from "react";
+import AddCrypto from "../components/AddCrypto";
 
 export default function Dashboard() {
+  const [username, setUsername] = useState("Facundo");
+
+  const handleChangeUser = () => {
+    setUsername("Juan");
+    console.log(username);
+  };
   return (
     <main className="dashboard">
       <header className="header">
@@ -10,7 +18,7 @@ export default function Dashboard() {
         <h2>Plataforma para gestionar criptos </h2>
 
         <div className="user-info">
-          <span>Facundo</span>
+          <span>{username}</span>
           <img
             src="https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png"
             alt="Usuario"
@@ -88,7 +96,9 @@ export default function Dashboard() {
         <button>Comprar</button>
         <button>Vender</button>
         <button>Mercado</button>
+        <button onClick={handleChangeUser}>Cambiar usuario</button>
       </section>
+      <AddCrypto />
     </main>
   );
 }
