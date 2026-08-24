@@ -6,10 +6,19 @@ import AddCrypto from "../components/AddCrypto";
 
 export default function Dashboard() {
   const [username, setUsername] = useState("Facundo");
+  const [cryptoName, setCryptoName] = useState("");
 
   const handleChangeUser = () => {
     setUsername("Juan");
     console.log(username);
+  };
+
+  const handleCryptoAdded = (crypto) => {
+    const fullCrypto = {
+      ...crypto,
+      id: Math.random(),
+    };
+    console.log(fullCrypto);
   };
   return (
     <main className="dashboard">
@@ -30,7 +39,9 @@ export default function Dashboard() {
         <h2>Bienvenido 👋</h2>
         <p>Administrá tu portfolio de criptomonedas.</p>
       </section>
-
+      <section>
+        <p>La criptomoenda selecionada es {cryptoName}</p>
+      </section>
       <section className="summary">
         <div className="card">
           <h3>Portfolio</h3>
@@ -66,6 +77,7 @@ export default function Dashboard() {
               amount={cryptos[0].amount}
               value={cryptos[0].value}
               image={cryptos[0].image}
+              onSelectCryptoName={setCryptoName}
             />
             <CryptoItem
               cryptoName={cryptos[1].name}
@@ -73,6 +85,7 @@ export default function Dashboard() {
               amount={cryptos[1].amount}
               value={cryptos[1].value}
               image={cryptos[1].image}
+              onSelectCryptoName={setCryptoName}
             />
             <CryptoItem
               cryptoName={cryptos[2].name}
@@ -80,6 +93,7 @@ export default function Dashboard() {
               amount={cryptos[2].amount}
               value={cryptos[2].value}
               image={cryptos[2].image}
+              onSelectCryptoName={setCryptoName}
             />
             <CryptoItem
               cryptoName={cryptos[3].name}
@@ -87,6 +101,7 @@ export default function Dashboard() {
               amount={cryptos[3].amount}
               value={cryptos[3].value}
               image={cryptos[3].image}
+              onSelectCryptoName={setCryptoName}
             />
           </tbody>
         </table>
@@ -98,7 +113,7 @@ export default function Dashboard() {
         <button>Mercado</button>
         <button onClick={handleChangeUser}>Cambiar usuario</button>
       </section>
-      <AddCrypto />
+      <AddCrypto onCryptoAdded={handleCryptoAdded} />
     </main>
   );
 }

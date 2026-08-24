@@ -1,12 +1,19 @@
 import { useState } from "react";
-const CryptoItem = ({ cryptoName, symbol, amount, value, image }) => {
+const CryptoItem = ({
+  cryptoName,
+  symbol,
+  amount,
+  value,
+  image,
+  onSelectCryptoName,
+}) => {
   //   const cryptoName = "Bitcoin";
   //   const amount = "0.15 BTC";
   //   const value = "USD 9.750";
 
   const [name, setName] = useState(cryptoName);
-  const handleChangeName = () => {
-    setName("Cripto actualizada");
+  const handleSelectName = () => {
+    onSelectCryptoName(name);
   };
   return (
     <tr>
@@ -21,8 +28,8 @@ const CryptoItem = ({ cryptoName, symbol, amount, value, image }) => {
       </td>
       <td>{value} USD</td>
       <td>
-        <button style={{ cursor: "pointer" }} onClick={handleChangeName}>
-          Cambiar nombre
+        <button style={{ cursor: "pointer" }} onClick={handleSelectName}>
+          Seleccionar cripto
         </button>
       </td>
     </tr>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-export default function AddCrypto() {
+export default function AddCrypto({ onCryptoAdded }) {
   const [name, setName] = useState("");
   const [symbol, setSymbol] = useState("");
   const [amount, setAmount] = useState("");
@@ -31,7 +31,12 @@ export default function AddCrypto() {
       value: parseInt(value, 10),
       image,
     };
-    console.log(crypto);
+    onCryptoAdded(crypto);
+    setName("");
+    setSymbol("");
+    setAmount("");
+    setValue("");
+    setImage("");
   };
   return (
     <section>
@@ -43,30 +48,35 @@ export default function AddCrypto() {
           type="text"
           placeholder="Nombre"
           onChange={handleChangeName}
+          value={name}
         />
         <input
           className="border border-gray-300 rounded-lg px-3 py-2 m-2"
           type="text"
           placeholder="Símbolo"
           onChange={handleChangeSymbol}
+          value={symbol}
         />
         <input
           className="border border-gray-300 rounded-lg px-3 py-2 m-2"
           type="number"
           placeholder="Cantidad"
           onChange={handleChangeAmount}
+          value={amount}
         />
         <input
           className="border border-gray-300 rounded-lg px-3 py-2 m-2"
           type="number"
           placeholder="Valor"
           onChange={handleChangeValue}
+          value={value}
         />
         <input
           className="border border-gray-300 rounded-lg px-3 py-2 m-2"
           type="text"
           placeholder="URL de imagen"
           onChange={handleChangeImage}
+          value={image}
         />
         <button type="submit" className="bg-green-300">
           Agregar cripto
