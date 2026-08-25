@@ -1,20 +1,20 @@
 import "./Dashboard.css";
 import CryptoItem from "../components/CryptoItem";
 import { cryptos } from "../data/cryptos";
-import { use, useState } from "react";
+import { useState } from "react";
 import AddCrypto from "../components/AddCrypto";
 import CryptoSearch from "../components/CryptoSearch";
 
 export default function Dashboard() {
-  const [username, setUsername] = useState("Facundo");
+  //  const [username, setUsername] = useState("Facundo");
   const [cryptoName, setCryptoName] = useState("");
   const [cryptoList, setCryptoList] = useState(cryptos);
   const [search, setSearch] = useState("");
 
-  const handleChangeUser = () => {
-    setUsername("Juan");
-    console.log(username);
-  };
+  // const handleChangeUser = () => {
+  //   setUsername("Juan");
+  //   console.log(username);
+  // };
 
   const handleCryptoAdded = (crypto) => {
     const fullCrypto = {
@@ -25,7 +25,7 @@ export default function Dashboard() {
   };
 
   const filteredCryptos = cryptoList.filter((crypto) =>
-    crypto.name.toLowerCase().includes(search.toLowerCase())
+    crypto.name.toLowerCase().includes(search.toLowerCase()),
   );
   return (
     <main className="dashboard">
@@ -34,7 +34,7 @@ export default function Dashboard() {
         <h2>Plataforma para gestionar criptos </h2>
 
         <div className="user-info">
-          <span>{username}</span>
+          {/* <span>{username}</span> */}
           <img
             src="https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png"
             alt="Usuario"
@@ -88,6 +88,7 @@ export default function Dashboard() {
                   amount={crypto.amount}
                   value={crypto.value}
                   image={crypto.image}
+                  onSelectCryptoName={setCryptoName}
                 />
               );
             })}
@@ -99,7 +100,7 @@ export default function Dashboard() {
         <button>Comprar</button>
         <button>Vender</button>
         <button>Mercado</button>
-        <button onClick={handleChangeUser}>Cambiar usuario</button>
+        {/* <button onClick={handleChangeUser}>Cambiar usuario</button> */}
       </section>
       <AddCrypto onCryptoAdded={handleCryptoAdded} />
     </main>
