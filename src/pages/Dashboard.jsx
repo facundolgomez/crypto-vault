@@ -1,12 +1,15 @@
 import "./Dashboard.css";
 import CryptoItem from "../components/CryptoItem";
 import { cryptos } from "../data/cryptos";
-import { useState } from "react";
+import { use, useState } from "react";
 import AddCrypto from "../components/AddCrypto";
+import CryptoSearch from "../components/CryptoSearch";
 
 export default function Dashboard() {
   const [username, setUsername] = useState("Facundo");
   const [cryptoName, setCryptoName] = useState("");
+  const [cryptoList, setCryptoList] = useState(cryptos);
+  const [search, setSearch] = useState("");
 
   const handleChangeUser = () => {
     setUsername("Juan");
@@ -18,8 +21,12 @@ export default function Dashboard() {
       ...crypto,
       id: Math.random(),
     };
-    console.log(fullCrypto);
+    setCryptoList((prevCryptoList) => [fullCrypto, ...prevCryptoList]);
   };
+
+  const filteredCryptos = cryptoList.filter((crypto) =>
+    crypto.name.toLowerCase().includes(search.toLowerCase())
+  );
   return (
     <main className="dashboard">
       <header className="header">
@@ -41,6 +48,7 @@ export default function Dashboard() {
       </section>
       <section>
         <p>La criptomoenda selecionada es {cryptoName}</p>
+        <CryptoSearch onSearchChange={setSearch} />
       </section>
       <section className="summary">
         <div className="card">
@@ -71,38 +79,18 @@ export default function Dashboard() {
           </thead>
 
           <tbody>
-            <CryptoItem
-              cryptoName={cryptos[0].name}
-              symbol={cryptos[0].symbol}
-              amount={cryptos[0].amount}
-              value={cryptos[0].value}
-              image={cryptos[0].image}
-              onSelectCryptoName={setCryptoName}
-            />
-            <CryptoItem
-              cryptoName={cryptos[1].name}
-              symbol={cryptos[1].symbol}
-              amount={cryptos[1].amount}
-              value={cryptos[1].value}
-              image={cryptos[1].image}
-              onSelectCryptoName={setCryptoName}
-            />
-            <CryptoItem
-              cryptoName={cryptos[2].name}
-              symbol={cryptos[2].symbol}
-              amount={cryptos[2].amount}
-              value={cryptos[2].value}
-              image={cryptos[2].image}
-              onSelectCryptoName={setCryptoName}
-            />
-            <CryptoItem
-              cryptoName={cryptos[3].name}
-              symbol={cryptos[3].symbol}
-              amount={cryptos[3].amount}
-              value={cryptos[3].value}
-              image={cryptos[3].image}
-              onSelectCryptoName={setCryptoName}
-            />
+            {filteredCryptos.map((crypto) => {
+              return (
+                <CryptoItem
+                  key={crypto.id}
+                  cryptoName={crypto.name}
+                  symbol={crypto.symbol}
+                  amount={crypto.amount}
+                  value={crypto.value}
+                  image={crypto.image}
+                />
+              );
+            })}
           </tbody>
         </table>
       </section>
