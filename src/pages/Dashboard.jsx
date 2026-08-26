@@ -25,7 +25,7 @@ export default function Dashboard() {
   };
 
   const filteredCryptos = cryptoList.filter((crypto) =>
-    crypto.name.toLowerCase().includes(search.toLowerCase()),
+    crypto.name.toLowerCase().includes(search.toLowerCase())
   );
   return (
     <main className="dashboard">
@@ -47,7 +47,11 @@ export default function Dashboard() {
         <p>Administrá tu portfolio de criptomonedas.</p>
       </section>
       <section>
-        <p>La criptomoenda selecionada es {cryptoName}</p>
+        {cryptoName && (
+          <p>
+            La criptomoneda seleccionada es <b>{cryptoName}</b>
+          </p>
+        )}
         <CryptoSearch onSearchChange={setSearch} />
       </section>
       <section className="summary">
@@ -79,19 +83,25 @@ export default function Dashboard() {
           </thead>
 
           <tbody>
-            {filteredCryptos.map((crypto) => {
-              return (
-                <CryptoItem
-                  key={crypto.id}
-                  cryptoName={crypto.name}
-                  symbol={crypto.symbol}
-                  amount={crypto.amount}
-                  value={crypto.value}
-                  image={crypto.image}
-                  onSelectCryptoName={setCryptoName}
-                />
-              );
-            })}
+            {filteredCryptos.length > 0 ? (
+              filteredCryptos.map((crypto) => {
+                return (
+                  <CryptoItem
+                    key={crypto.id}
+                    cryptoName={crypto.name}
+                    symbol={crypto.symbol}
+                    amount={crypto.amount}
+                    value={crypto.value}
+                    image={crypto.image}
+                    onSelectCryptoName={setCryptoName}
+                  />
+                );
+              })
+            ) : (
+              <tr>
+                <td colSpan="3">No se encontraron lecturas con ese nombre</td>
+              </tr>
+            )}
           </tbody>
         </table>
       </section>
