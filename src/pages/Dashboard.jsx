@@ -27,6 +27,8 @@ export default function Dashboard() {
   const filteredCryptos = cryptoList.filter((crypto) =>
     crypto.name.toLowerCase().includes(search.toLowerCase())
   );
+
+  const balance = -2;
   return (
     <main className="dashboard">
       <header className="header">
@@ -68,6 +70,16 @@ export default function Dashboard() {
         <div className="card">
           <h3>Criptos</h3>
           <p>5</p>
+        </div>
+        <div className="card">
+          <h3>Estado</h3>
+          <p>
+            {balance > 0
+              ? "Tu portfolio está creciendo"
+              : balance === 0
+              ? "Tu poprtfolio está estable"
+              : "Tu portfolio está perdiendo valor"}
+          </p>
         </div>
       </section>
       <section className="portfolio">
