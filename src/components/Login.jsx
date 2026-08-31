@@ -3,17 +3,41 @@ import { useState, useRef } from "react";
 export default function Login() {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
+
+  const [errors, setErrors] = useState({
+    email: false,
+    password: false,
+  });
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    emailRef.current.focus();
+    if (!emailRef.current.value.length) {
+      setErrors({ ...errors, email: true });
+      alert("Email vacio");
 
-    setTimeout(() => {
-      emailRef.current.blur();
-    }, 2000);
+      return;
+    }
+    if (
+      !passwordRef.current.value.length ||
+      passwordRef.current.value.length < 7
+    ) {
+      setErrors({ ...errors, password: true });
+      alert("Password incomopleto");
 
-    console.log("El valor del email ", emailRef.current.value);
-    console.log("El valor de la password es ", passwordRef.current.value);
+      return;
+    }
+    setErrors({ email: false, password: false });
+    alert(
+      `El email ingresado es ${emailRef.current.value} y el password es ${passwordRef.current.value}`
+    );
+  };
+
+  const handleEmailChange = () => {
+    setErrors({ ...errors, email: false });
+  };
+
+  const handlePasswordChange = () => {
+    setErrors({ ...errors, password: false });
   };
 
   return (
@@ -25,15 +49,21 @@ export default function Login() {
           <input
             type="email"
             placeholder="Ingresar email"
-            className="border border-gray-300 rounded-lg px-4 py-2"
+            className={`border border-gray-300 rounded-lg px-4 py-2 ${
+              errors.email ? "border-red-500 border-2" : "border-gray-300"
+            }`}
             ref={emailRef}
+            onChange={handleEmailChange}
           />
 
           <input
             type="password"
             placeholder="Ingresar contraseña"
-            className="border border-gray-300 rounded-lg px-4 py-2"
+            className={`border border-gray-300 rounded-lg px-4 py-2 ${
+              errors.password ? "border-red-500 border-2" : "border-gray-300"
+            } `}
             ref={passwordRef}
+            onChange={handlePasswordChange}
           />
 
           <button
