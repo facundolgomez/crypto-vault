@@ -1,8 +1,11 @@
 import { useState, useRef } from "react";
+import { useNavigate } from "react-router";
 
-export default function Login() {
+export default function Login({ setIsLoggedIn }) {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
+
+  const navigate = useNavigate();
 
   const [errors, setErrors] = useState({
     email: false,
@@ -30,6 +33,8 @@ export default function Login() {
     alert(
       `El email ingresado es ${emailRef.current.value} y el password es ${passwordRef.current.value}`
     );
+    setIsLoggedIn(true);
+    navigate("/dashboard");
   };
 
   const handleEmailChange = () => {
