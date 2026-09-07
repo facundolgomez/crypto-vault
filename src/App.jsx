@@ -4,8 +4,8 @@ import Login from "./components/Login";
 function App() {
   return (
     <>
-      {/* <Dashboard />{" "} */}
-      <Login />
+      <Dashboard />
+      {/* <Login /> */}
     </>
   );
 }

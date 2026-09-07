@@ -4,12 +4,16 @@ import { cryptos } from "../data/cryptos";
 import { useState } from "react";
 import AddCrypto from "../components/AddCrypto";
 import CryptoSearch from "../components/CryptoSearch";
+import ConfirmModal from "../components/ui/ConfirmModal";
 
 export default function Dashboard() {
   //  const [username, setUsername] = useState("Facundo");
   const [cryptoName, setCryptoName] = useState("");
   const [cryptoList, setCryptoList] = useState(cryptos);
   const [search, setSearch] = useState("");
+
+  const [showModal, setShowModal] = useState(false);
+  const [cryptoToDelete, setCryptoToDelete] = useState(null);
 
   // const handleChangeUser = () => {
   //   setUsername("Juan");
@@ -29,6 +33,20 @@ export default function Dashboard() {
   );
 
   const balance = -2;
+
+  const handleShowModal = (crypto) => {
+    setCryptoToDelete(crypto);
+    setShowModal(true);
+  };
+
+  const handleDeleteCrypto = (id) => {
+    setCryptoList((prevCryptoList) =>
+      prevCryptoList.filter((crypto) => crypto.id !== id)
+    );
+    setShowModal(false);
+    setCryptoToDelete(null);
+  };
+
   return (
     <main className="dashboard">
       <header className="header">
@@ -91,6 +109,8 @@ export default function Dashboard() {
               <th>Moneda</th>
               <th>Cantidad</th>
               <th>Valor</th>
+              <th>Seleccion de cripto</th>
+              <th>Eliminar cripto</th>
             </tr>
           </thead>
 
@@ -106,6 +126,7 @@ export default function Dashboard() {
                     value={crypto.value}
                     image={crypto.image}
                     onSelectCryptoName={setCryptoName}
+                    onShowDeleteModal={() => handleShowModal(crypto)}
                   />
                 );
               })
@@ -125,6 +146,13 @@ export default function Dashboard() {
         {/* <button onClick={handleChangeUser}>Cambiar usuario</button> */}
       </section>
       <AddCrypto onCryptoAdded={handleCryptoAdded} />
+      {showModal && (
+        <ConfirmModal
+          cryptoName={cryptoToDelete.name}
+          onConfirm={() => handleDeleteCrypto(cryptoToDelete.id)}
+          onCancel={() => setShowModal(false)}
+        />
+      )}
     </main>
   );
 }

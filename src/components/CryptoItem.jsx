@@ -6,6 +6,7 @@ const CryptoItem = ({
   value,
   image,
   onSelectCryptoName,
+  onShowDeleteModal,
 }) => {
   //   const cryptoName = "Bitcoin";
   //   const amount = "0.15 BTC";
@@ -14,6 +15,10 @@ const CryptoItem = ({
   //const [name, setName] = useState(cryptoName);
   const handleSelectName = () => {
     onSelectCryptoName(cryptoName);
+  };
+
+  const handleShowModal = () => {
+    onShowDeleteModal();
   };
   return (
     <tr>
@@ -31,6 +36,9 @@ const CryptoItem = ({
         <button style={{ cursor: "pointer" }} onClick={handleSelectName}>
           Seleccionar cripto
         </button>
+      </td>
+      <td>
+        <button onClick={handleShowModal}>Eliminar</button>
       </td>
     </tr>
   );
