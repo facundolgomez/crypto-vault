@@ -41,7 +41,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center flex-col">
       <section className="w-full max-w-md p-8 bg-white rounded-xl shadow-lg">
         <h2 className="text-2xl font-bold mb-6 text-center">Iniciar sesión</h2>
 
@@ -74,6 +74,11 @@ export default function Login() {
           </button>
         </form>
       </section>
+      {(errors.email || errors.password) && (
+        <p className="text-red-500">
+          Debes completar los campos para iniciar sesión
+        </p>
+      )}
     </div>
   );
 }
