@@ -20,7 +20,7 @@ function App() {
             element={
               <ProtectedRoute isLoggedIn={isLoggedIn}>
                 {" "}
-                <Dashboard />
+                <Dashboard setIsLoggedIn={setIsLoggedIn} />
               </ProtectedRoute>
             }
           />

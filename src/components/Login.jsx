@@ -34,7 +34,7 @@ export default function Login({ setIsLoggedIn }) {
       `El email ingresado es ${emailRef.current.value} y el password es ${passwordRef.current.value}`
     );
     setIsLoggedIn(true);
-    navigate("/dashboard");
+    navigate("/dashboard", { replace: true });
   };
 
   const handleEmailChange = () => {

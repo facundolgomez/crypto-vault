@@ -6,7 +6,7 @@ import AddCrypto from "../components/AddCrypto";
 import CryptoSearch from "../components/CryptoSearch";
 import ConfirmModal from "../components/ui/ConfirmModal";
 
-export default function Dashboard() {
+export default function Dashboard({ setIsLoggedIn }) {
   //  const [username, setUsername] = useState("Facundo");
   const [cryptoName, setCryptoName] = useState("");
   const [cryptoList, setCryptoList] = useState(cryptos);
@@ -46,7 +46,9 @@ export default function Dashboard() {
     setShowModal(false);
     setCryptoToDelete(null);
   };
-
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+  };
   return (
     <main className="dashboard">
       <header className="header">
@@ -59,6 +61,12 @@ export default function Dashboard() {
             src="https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png"
             alt="Usuario"
           />
+          <button
+            onClick={handleLogout}
+            className="absolute top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg"
+          >
+            Cerrar sesión
+          </button>
         </div>
       </header>
 
