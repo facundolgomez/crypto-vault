@@ -1,7 +1,7 @@
-import { Navigate } from "react-router";
-function ProtectedRoute({ isLoggedIn, children }) {
+import { Navigate, Outlet } from "react-router";
+function ProtectedRoute({ isLoggedIn }) {
   if (isLoggedIn) {
-    return children;
+    return <Outlet />;
   }
 
   return <Navigate to="/login" />;

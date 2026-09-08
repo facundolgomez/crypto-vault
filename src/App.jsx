@@ -15,7 +15,7 @@ function App() {
             path="/login"
             element={<Login setIsLoggedIn={setIsLoggedIn} />}
           />
-          <Route
+          {/* <Route
             path="/dashboard"
             element={
               <ProtectedRoute isLoggedIn={isLoggedIn}>
@@ -23,7 +23,13 @@ function App() {
                 <Dashboard setIsLoggedIn={setIsLoggedIn} />
               </ProtectedRoute>
             }
-          />
+          /> */}
+          <Route element={<ProtectedRoute isLoggedIn={isLoggedIn} />}>
+            <Route
+              path="/dashboard"
+              element={<Dashboard setIsLoggedIn={setIsLoggedIn} />}
+            />
+          </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
