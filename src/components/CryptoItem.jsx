@@ -1,5 +1,7 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 const CryptoItem = ({
+  id,
   cryptoName,
   symbol,
   amount,
@@ -13,13 +15,18 @@ const CryptoItem = ({
   //   const value = "USD 9.750";
 
   //const [name, setName] = useState(cryptoName);
+  const navigate = useNavigate();
   const handleSelectName = () => {
-    onSelectCryptoName(cryptoName);
+    // onSelectCryptoName(cryptoName);
+    navigate(`/dashboard/${id}`, {
+      state: { name: cryptoName, symbol, amount, value, image },
+    });
   };
 
   const handleShowModal = () => {
     onShowDeleteModal();
   };
+
   return (
     <tr>
       <td>

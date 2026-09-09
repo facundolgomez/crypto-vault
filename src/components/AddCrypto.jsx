@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 export default function AddCrypto({ onCryptoAdded }) {
   const [name, setName] = useState("");
   const [symbol, setSymbol] = useState("");
   const [amount, setAmount] = useState("");
   const [value, setValue] = useState("");
   const [image, setImage] = useState("");
+  const navigate = useNavigate();
 
   const handleChangeName = (e) => {
     setName(e.target.value);
@@ -78,9 +80,18 @@ export default function AddCrypto({ onCryptoAdded }) {
           onChange={handleChangeImage}
           value={image}
         />
-        <button type="submit" className="bg-green-300">
-          Agregar cripto
-        </button>
+        <div className="flex gap-2">
+          <button type="submit" className="bg-green-300">
+            Agregar cripto
+          </button>
+          <button
+            type="button"
+            className="bg-red-300"
+            onClick={() => navigate("/dashboard", { replace: true })}
+          >
+            Cancelar operacion/volver
+          </button>
+        </div>
       </form>
     </section>
   );
