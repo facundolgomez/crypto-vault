@@ -1,10 +1,10 @@
 import "./Dashboard.css";
 
 import { cryptos } from "../data/cryptos";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AddCrypto from "../components/AddCrypto";
 
-import { useNavigate, Route, Routes } from "react-router";
+import { useNavigate, Route, Routes, data } from "react-router";
 import DashboardHome from "./DashboardHome";
 import CryptoDetails from "../components/CryptoDetails";
 
@@ -23,11 +23,19 @@ export default function Dashboard({ setIsLoggedIn }) {
   // };
 
   const handleCryptoAdded = (crypto) => {
-    const fullCrypto = {
-      ...crypto,
-      id: Math.random(),
-    };
-    setCryptoList((prevCryptoList) => [fullCrypto, ...prevCryptoList]);
+    fetch("http://localhost:3000/cryptos", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(crypto),
+    })
+      .then((res) =>
+        res.json().then((data) => {
+          setCryptoList((prev) => [data, ...prev]);
+        })
+      )
+      .catch((err) => console.log(err));
   };
 
   const filteredCryptos = cryptoList.filter((crypto) =>
@@ -58,7 +66,14 @@ export default function Dashboard({ setIsLoggedIn }) {
   const handleGoToAddCrypto = () => {
     navigate("/dashboard/add-crypto", { replace: true });
   };
-
+  useEffect(() => {
+    fetch("http://localhost:3000/cryptos").then((res) =>
+      res
+        .json()
+        .then((data) => setCryptoList(data))
+        .catch((err) => console.log(err))
+    );
+  }, []);
   return (
     <main className="dashboard">
       <header className="header">
