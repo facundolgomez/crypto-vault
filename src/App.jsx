@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router";
 import NotFound from "./components/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useState } from "react";
+import { ToastContainer } from "react-toastify";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
@@ -33,7 +34,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
-
+      <ToastContainer />
       {/* <Login /> */}
     </>
   );

@@ -7,6 +7,7 @@ import AddCrypto from "../components/AddCrypto";
 import { useNavigate, Route, Routes, data } from "react-router";
 import DashboardHome from "./DashboardHome";
 import CryptoDetails from "../components/CryptoDetails";
+import { successToast, errorToast } from "../notifications";
 
 export default function Dashboard({ setIsLoggedIn }) {
   //  const [username, setUsername] = useState("Facundo");
@@ -23,6 +24,10 @@ export default function Dashboard({ setIsLoggedIn }) {
   // };
 
   const handleCryptoAdded = (crypto) => {
+    if (!crypto.name || !crypto.symbol) {
+      errorToast("El nombre y/o símbolo son requeridos");
+      return;
+    }
     fetch("http://localhost:3000/cryptos", {
       method: "POST",
       headers: {
@@ -33,9 +38,12 @@ export default function Dashboard({ setIsLoggedIn }) {
       .then((res) =>
         res.json().then((data) => {
           setCryptoList((prev) => [data, ...prev]);
+          successToast(`¡Cripto ${data.name} agregada correctamente!`);
         })
       )
-      .catch((err) => console.log(err));
+      .catch((err) =>
+        errorToast("Hubo un error al agregar la criptomoneda :", err.message)
+      );
   };
 
   const filteredCryptos = cryptoList.filter((crypto) =>
