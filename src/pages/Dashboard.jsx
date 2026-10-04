@@ -98,11 +98,24 @@ export default function Dashboard({ setIsLoggedIn }) {
   };
 
   const handleDeleteCrypto = (id) => {
-    setCryptoList((prevCryptoList) =>
-      prevCryptoList.filter((crypto) => crypto.id !== id)
-    );
-    setShowModal(false);
-    setCryptoToDelete(null);
+    fetch(`http://localhost:3000/cryptos/${id}`, {
+      method: "DELETE",
+    })
+      .then((res) => {
+        if (!res.ok) {
+          errorToast("Error al eliminar la criptomoneda");
+          return;
+        }
+        setCryptoList((prevCryptoList) =>
+          prevCryptoList.filter((crypto) => crypto.id !== id)
+        );
+        successToast("Criptomoneda eliminada correctamente");
+      })
+      .catch(() => errorToast("Hubo un error al eliminar la criptomoneda"))
+      .finally(() => {
+        setShowModal(false);
+        setCryptoToDelete(null);
+      });
   };
   const navigate = useNavigate();
 
@@ -122,6 +135,7 @@ export default function Dashboard({ setIsLoggedIn }) {
         .catch((err) => console.log(err))
     );
   }, []);
+
   return (
     <main className="dashboard">
       <header className="header">
