@@ -8,6 +8,7 @@ import { useNavigate, Route, Routes, data } from "react-router";
 import DashboardHome from "./DashboardHome";
 import CryptoDetails from "../components/CryptoDetails";
 import { successToast, errorToast } from "../notifications";
+import EditCrypto from "../components/EditCrypto";
 
 export default function Dashboard({ setIsLoggedIn }) {
   //  const [username, setUsername] = useState("Facundo");
@@ -17,12 +18,51 @@ export default function Dashboard({ setIsLoggedIn }) {
 
   const [showModal, setShowModal] = useState(false);
   const [cryptoToDelete, setCryptoToDelete] = useState(null);
+  const [editingCrypto, setEditingCrypto] = useState(null);
 
   // const handleChangeUser = () => {
   //   setUsername("Juan");
   //   console.log(username);
   // };
+  const handleEditClick = (crypto) => {
+    setEditingCrypto({ ...crypto });
+  };
+  const handleEditChange = (event) => {
+    const { name, value } = event.target;
+    setEditingCrypto((prev) => ({ ...prev, [name]: value }));
+  };
+  const handleUpdateCrypto = (event) => {
+    event.preventDefault(); // evita que el form recargue la página
 
+    if (!editingCrypto.name || !editingCrypto.symbol) {
+      errorToast("Nombre y símbolo son obligatorios");
+      return; // corta acá, ni siquiera hace el fetch
+    }
+
+    fetch(`http://localhost:3000/cryptos/${editingCrypto.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(editingCrypto),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          return res.json().then((data) => {
+            errorToast(data.message || "Error al actualizar la criptomoneda");
+            throw new Error(data.message); // corta la cadena de .then
+          });
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setCryptoList((prev) => prev.map((c) => (c.id === data.id ? data : c)));
+        successToast(`¡Cripto ${data.name} actualizada correctamente!`);
+        setEditingCrypto(null); // cierra el form
+      })
+      .catch(() => {});
+  };
+  const handleCancelEdit = () => {
+    setEditingCrypto(null);
+  };
   const handleCryptoAdded = (crypto) => {
     if (!crypto.name || !crypto.symbol) {
       errorToast("El nombre y/o símbolo son requeridos");
@@ -114,6 +154,7 @@ export default function Dashboard({ setIsLoggedIn }) {
               onConfirmDelete={() => handleDeleteCrypto(cryptoToDelete.id)}
               onCancelModal={() => setShowModal(false)}
               onGoToAddCrypto={handleGoToAddCrypto}
+              onEditCrypto={handleEditClick}
             />
           }
         />
@@ -123,6 +164,14 @@ export default function Dashboard({ setIsLoggedIn }) {
         />
         <Route path=":id" element={<CryptoDetails />} />
       </Routes>
+      {editingCrypto && (
+        <EditCrypto
+          editingCrypto={editingCrypto}
+          handleEditChange={handleEditChange}
+          handleUpdateCrypto={handleUpdateCrypto}
+          handleCancelEdit={handleCancelEdit}
+        />
+      )}
     </main>
   );
 }

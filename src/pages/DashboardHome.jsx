@@ -15,6 +15,7 @@ export default function DashboardHome({
   onConfirmDelete,
   onCancelModal,
   onGoToAddCrypto,
+  onEditCrypto,
 }) {
   return (
     <>
@@ -82,6 +83,7 @@ export default function DashboardHome({
                   image={crypto.image}
                   onSelectCryptoName={onSelectCryptoName}
                   onShowDeleteModal={() => onShowDeleteModal(crypto)}
+                  onEditCrypto={() => onEditCrypto(crypto)}
                 />
               ))
             ) : (

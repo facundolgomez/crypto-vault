@@ -9,6 +9,7 @@ const CryptoItem = ({
   image,
   onSelectCryptoName,
   onShowDeleteModal,
+  onEditCrypto,
 }) => {
   //   const cryptoName = "Bitcoin";
   //   const amount = "0.15 BTC";
@@ -46,6 +47,9 @@ const CryptoItem = ({
       </td>
       <td>
         <button onClick={handleShowModal}>Eliminar</button>
+      </td>
+      <td>
+        <button onClick={onEditCrypto}>Editar</button>{" "}
       </td>
     </tr>
   );
