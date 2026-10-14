@@ -1,5 +1,7 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router";
+import AuthContainer from "./AuthContainer";
+import { errorToast } from "../notifications";
 
 export default function Login({ setIsLoggedIn }) {
   const emailRef = useRef(null);
@@ -30,11 +32,27 @@ export default function Login({ setIsLoggedIn }) {
       return;
     }
     setErrors({ email: false, password: false });
-    alert(
-      `El email ingresado es ${emailRef.current.value} y el password es ${passwordRef.current.value}`
-    );
-    setIsLoggedIn(true);
-    navigate("/dashboard", { replace: true });
+
+    fetch("http://localhost:3000/login", {
+      headers: { "Content-type": "application/json" },
+      method: "POST",
+      body: JSON.stringify({
+        email: emailRef.current.value,
+        password: passwordRef.current.value,
+      }),
+    })
+      .then((res) =>
+        res.json().then((data) => {
+          if (!res.ok) {
+            errorToast(data.message || "Error al iniciar sesión");
+            return;
+          }
+          localStorage.setItem("crypto-vault-token", data);
+          setIsLoggedIn(true);
+          navigate("/dashboard", { replace: true });
+        }),
+      )
+      .catch(() => errorToast("No se pudo conectar con el servidor"));
   };
 
   const handleEmailChange = () => {
@@ -46,44 +64,50 @@ export default function Login({ setIsLoggedIn }) {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center flex-col">
-      <section className="w-full max-w-md p-8 bg-white rounded-xl shadow-lg">
-        <h2 className="text-2xl font-bold mb-6 text-center">Iniciar sesión</h2>
+    <AuthContainer>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <input
+          type="email"
+          placeholder="Ingresar email"
+          className={`border border-gray-300 rounded-lg px-4 py-2 ${
+            errors.email ? "border-red-500 border-2" : "border-gray-300"
+          }`}
+          ref={emailRef}
+          onChange={handleEmailChange}
+        />
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <input
-            type="email"
-            placeholder="Ingresar email"
-            className={`border border-gray-300 rounded-lg px-4 py-2 ${
-              errors.email ? "border-red-500 border-2" : "border-gray-300"
-            }`}
-            ref={emailRef}
-            onChange={handleEmailChange}
-          />
+        <input
+          type="password"
+          placeholder="Ingresar contraseña"
+          className={`border border-gray-300 rounded-lg px-4 py-2 ${
+            errors.password ? "border-red-500 border-2" : "border-gray-300"
+          } `}
+          ref={passwordRef}
+          onChange={handlePasswordChange}
+        />
+        {(errors.email || errors.password) && (
+          <p className="text-red-500">
+            Debes completar los campos para iniciar sesión
+          </p>
+        )}
 
-          <input
-            type="password"
-            placeholder="Ingresar contraseña"
-            className={`border border-gray-300 rounded-lg px-4 py-2 ${
-              errors.password ? "border-red-500 border-2" : "border-gray-300"
-            } `}
-            ref={passwordRef}
-            onChange={handlePasswordChange}
-          />
-
-          <button
-            type="submit"
-            className="bg-blue-600 text-white rounded-lg py-2 hover:bg-blue-700"
-          >
-            Iniciar sesión
-          </button>
-        </form>
-      </section>
-      {(errors.email || errors.password) && (
-        <p className="text-red-500">
-          Debes completar los campos para iniciar sesión
-        </p>
-      )}
-    </div>
+        <button
+          type="submit"
+          className="bg-blue-600 text-white rounded-lg py-2 hover:bg-blue-700"
+        >
+          Iniciar sesión
+        </button>
+      </form>
+      <div className="mt-6 text-center">
+        <p className="font-semibold mb-2">¿Aún no tenés cuenta?</p>
+        <button
+          type="button"
+          onClick={() => navigate("/register")}
+          className="w-full border border-blue-600 text-blue-600 rounded-lg py-2 hover:bg-blue-50"
+        >
+          Registrarse
+        </button>
+      </div>
+    </AuthContainer>
   );
 }

@@ -5,6 +5,7 @@ import NotFound from "./components/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useState } from "react";
 import { ToastContainer } from "react-toastify";
+import Register from "./components/Register";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
@@ -16,6 +17,7 @@ function App() {
             path="/login"
             element={<Login setIsLoggedIn={setIsLoggedIn} />}
           />
+          <Route path="/register" element={<Register />} />
           {/* <Route
             path="/dashboard"
             element={
