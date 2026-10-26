@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import AuthContainer from "./AuthContainer";
-import { successToast, errorToast } from "../notifications";
+import { successToast, errorToast } from "../notifications.js";
+import { validateRegisterUser } from "./auth/auth.services.js";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -11,9 +12,13 @@ const Register = () => {
 
   const handleRegister = (event) => {
     event.preventDefault();
-
-    if (!userName || !email || !password) {
-      errorToast("Completá todos los campos");
+    const validation = validateRegisterUser({
+      name: userName,
+      email,
+      password,
+    });
+    if (validation.error) {
+      errorToast(validation.message);
       return;
     }
 

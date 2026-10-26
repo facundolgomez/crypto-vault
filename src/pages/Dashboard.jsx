@@ -79,15 +79,15 @@ export default function Dashboard({ setIsLoggedIn }) {
         res.json().then((data) => {
           setCryptoList((prev) => [data, ...prev]);
           successToast(`¡Cripto ${data.name} agregada correctamente!`);
-        })
+        }),
       )
       .catch((err) =>
-        errorToast("Hubo un error al agregar la criptomoneda :", err.message)
+        errorToast("Hubo un error al agregar la criptomoneda :", err.message),
       );
   };
 
   const filteredCryptos = cryptoList.filter((crypto) =>
-    crypto.name.toLowerCase().includes(search.toLowerCase())
+    crypto.name.toLowerCase().includes(search.toLowerCase()),
   );
 
   const balance = -2;
@@ -107,7 +107,7 @@ export default function Dashboard({ setIsLoggedIn }) {
           return;
         }
         setCryptoList((prevCryptoList) =>
-          prevCryptoList.filter((crypto) => crypto.id !== id)
+          prevCryptoList.filter((crypto) => crypto.id !== id),
         );
         successToast("Criptomoneda eliminada correctamente");
       })
@@ -121,18 +121,22 @@ export default function Dashboard({ setIsLoggedIn }) {
 
   const handleLogout = () => {
     setIsLoggedIn(false);
-    navigate("/login");
+    localStorage.removeItem("crypto-vault-token");
   };
 
   const handleGoToAddCrypto = () => {
     navigate("/dashboard/add-crypto", { replace: true });
   };
   useEffect(() => {
-    fetch("http://localhost:3000/cryptos").then((res) =>
+    fetch("http://localhost:3000/cryptos", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("crypto-vault-token")}`,
+      },
+    }).then((res) =>
       res
         .json()
         .then((data) => setCryptoList(data))
-        .catch((err) => console.log(err))
+        .catch((err) => console.log(err)),
     );
   }, []);
 

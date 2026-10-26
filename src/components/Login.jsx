@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { useNavigate } from "react-router";
 import AuthContainer from "./AuthContainer";
 import { errorToast } from "../notifications";
+import { validateLoginUser } from "./auth/auth.services.js";
 
 export default function Login({ setIsLoggedIn }) {
   const emailRef = useRef(null);
@@ -16,19 +17,17 @@ export default function Login({ setIsLoggedIn }) {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (!emailRef.current.value.length) {
-      setErrors({ ...errors, email: true });
-      alert("Email vacio");
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
 
-      return;
-    }
-    if (
-      !passwordRef.current.value.length ||
-      passwordRef.current.value.length < 7
-    ) {
-      setErrors({ ...errors, password: true });
-      alert("Password incomopleto");
+    const validation = validateLoginUser({ email, password });
 
+    if (validation.error) {
+      setErrors({
+        email: validation.message === "Email invalido",
+        password: validation.message === "Contraseña invalida",
+      });
+      errorToast(validation.message);
       return;
     }
     setErrors({ email: false, password: false });
@@ -36,10 +35,7 @@ export default function Login({ setIsLoggedIn }) {
     fetch("http://localhost:3000/login", {
       headers: { "Content-type": "application/json" },
       method: "POST",
-      body: JSON.stringify({
-        email: emailRef.current.value,
-        password: passwordRef.current.value,
-      }),
+      body: JSON.stringify({ email, password }),
     })
       .then((res) =>
         res.json().then((data) => {
